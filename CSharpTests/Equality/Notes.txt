@@ -1,0 +1,7 @@
+﻿				Natura c#			Plugin
+Equality		IEquatable<T>		IEqualityComparer<T>
+				==, !=				
+
+
+Comparisons		IComparable<T>		IComparer<T>
+				<,>

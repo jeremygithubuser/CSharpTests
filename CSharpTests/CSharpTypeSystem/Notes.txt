@@ -1,0 +1,37 @@
+﻿struct 
+class
+delegate
+interface
+
+
+Keywords 
+
+1/ keyword struct is used to create Types that inherits from System.Value.Type (special abstract class)
+Example : the System.Int32 type was is created (or declared) by the struct keyword 
+
+2/ keywords like : int , double , long , bool ... are use to alias Types like System.Int32
+, System.Double , System.Int64 , System.Boolean. 
+They were created with the struct keyword so they are evaluated on the stack
+
+3/ keyword enum is used to create Types that inherits from the System.Enum Type (abstract class)
+Are they evaluated on the stack?
+
+4/ keyword class is used to create Types that inherits directly System.Object (class)
+they are evaluated on the heap
+
+5/ keyword delegate is used to create Types that inherits from System.MulticastDelegate (special abstract class)
+they are evaluated on the heap
+
+6/ interface keyword is used to create Types
+
+7/ keyword array is used to create or Hold instances of Type System.Array (special abstract class)
+they are evaluated on the heap
+
+8/ Type is also a Type of System.Type that overides System.Object Equals Method.
+
+
+notes: special abstract class are not sealed but can not be inherited by user
+
+
+
+

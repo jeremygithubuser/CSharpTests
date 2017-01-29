@@ -1,0 +1,38 @@
+﻿Link https://www.h-schmidt.net/FloatConverter/IEEE754.html
+Le Float est codé sur 32 bits
+1 bit pour le signe 8 bits pour l exposant 23 bits pour la Mantisse
+
+S		E E E E E E E E	 1(invisible)	M M M M M M M M M M M M M M M M M M M M M M M
+signe		exposant E									Mantisse M
+N
+1
+
+P
+0
+
+EXPOSANT
+l'exposant possede 255 valeurs possibles
+La valeur 127 = 2^0
+
+Si   127 < E <= 255  
+On a e = E-127  exemple si E = 130 on a e = 3
+F =    S.( 1(invisible) M ).2^e
+
+Exemple convertir 124.324000000000000000000
+
+124				324
+1111100		.	0101001011110001101010
+
+s EEEEEEEE	1	MMMMMMMMMMMMMMMMMMMMMMM
+0			1	11110001010010111100011
+
+On voudrait décaler la virgule de 6 cases a droite il nous faut un exposant de 2^6
+On Pose 6 = E-127 E=133
+
+s EEEEEEEE	1	MMMMMMMMMMMMMMMMMMMMMMM
+0 10000101	1	11110001010010111100011
+0 10000101      11110001010010111100011
+
+												
+
+
