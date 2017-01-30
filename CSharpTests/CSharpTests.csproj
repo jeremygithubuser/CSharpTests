@@ -59,6 +59,7 @@
     <Compile Include="Equality\FloatTest.cs" />
     <Compile Include="Events\EventTest.cs" />
     <Compile Include="Methods\MethodsTest.cs" />
+    <Compile Include="MSIL\MsilTest.cs" />
     <Compile Include="Oop\InheritanceTest.cs" />
     <Compile Include="Oop\InterfaceTest.cs" />
     <Compile Include="Parameters\ParametersTest.cs" />
