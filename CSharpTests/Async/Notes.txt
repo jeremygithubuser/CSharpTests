@@ -1,0 +1,115 @@
+﻿Bonjour a tous dans cette video je vais essayer de répondre a une question.
+Async Await comment ca fonctionne,
+
+Alors vous me direz il y a deja plein de video sur ce sujet alors pourquoi en faire une de plus,
+Alors je vais vous repondre car ayant visionné pas mal de videos sur ce sujet j'avais du mal a comprendre comment une tache 
+peut s'effectuer en parrallele du Fil d'execution Principal puis une fois terminée revenir effectuer un callback dans le main thread!!
+
+Ca n'a pas de sens!!
+Dans certaines vidéos de Microsoft on vous dit Ho vous inquitez pas pas besoin de gérer de threads 
+le code situé apres await va s'executer dans le thread principal ...
+Alors qu'elle est la premiere chose qu'on va faire??
+
+On va créer une console application créer une methode asynchrone en lancant une task en ayant soigneusement parametrée avec configureAwait  
+egal true.
+
+Et la.... patatras le callback ne s'effectuera jamais dans le thread principal...et la on va se mettre a chercher chercher..
+
+Puis on va trouver ce qu'on attends c'est que en fait le code génere par le compilateur, 
+il va s'adapter a l'environnement si on est dans une appli wpf par exemple ce qu'il faut dire
+c est que ces petits coquin de microsoft ils on prevu un systeme qui permet de rappeller le thread principal sans que cela se voit dans le code ...
+
+Alors on va pour illustrer ca faire tourner une appli console et regarder comment ca se passe...
+Il s agit d une petite appli inspirée et simplifié trouvée sur le blob msdn de stephen Toub un des gars de la team de microsoft...
+Sinon on peut aussi aller voir sur le blob de filip ekberg qui a pas mal ecrit sur le sujet .. 
+ha il est fort ekberg qui appres avoir remporté 2 ou 3 fois wimbledon c'est mis au c# et ca c'est sympa.
+
+Bon c est parti 
+
+On a deux classes :
+Program qui va simuler le message loop des appli event-drivent (...)
+le SynchronizationContext qui va permetre System.Threading.Tasks de revenir executer les callback dans le thread principal.
+
+
+
+	Dans la classe program on a :
+
+Une methode LoginLibraryAsync qui simule une operation de login via Httpclient par exemple.
+On ecrit des tirets pour montrer que ca travaille
+Alors deja Qu est ce qu on peut voir??
+On a un delegate qui va s executer dans un autre thread ca c est sur! bon on simule un call qui prends du temps 
+
+puis on retourne successfully logged
+
+Remarquer le var ioTask a votre avis est ce que c'est la tache qui va etre renvoyée par la methode??
+Buzzz reponse non 
+
+La tache qui va etre renvoyée par la methode elle fait reference a la deuxiemme partie de la methode celle qui se situe apres await.
+On a donc deja bel et bien deux Taches!!
+
+Voila j ai appris en lisant que au moment de la compilation le code des methode taggées async va etre coupé en deux , 
+le code avant await qui s execute de suite
+et le code apres await qui est wrappé dans un delegate un state machine qui s'executera lorsque iotask sera completed, 
+et lorsque le callback sera terminé la tache renvoyée par 
+la methode sera elle meme terminée..
+
+Bon c est sympa Mais comment se fesse? comment ce callback va t il s effectuer dans le thread principal???
+au passage on remarguera que j ai ajouté la ioTask dans une liste pour pouvoir surveiller ce qui se passe!!
+
+Bon passons a la methode main
+La premiere chose qu on fait c est instancier un synchronisation context..alors voyons ce qui y a dedans alors?
+c est tt simple on a 
+-une liste de key value pair un delegate et un state 
+-une methode Post qui quand on l'appelle..elle dit non non non nonon
+non je rigole quand on l appelle elle ajoute une pair delegate et state dans la liste!
+(dans l exemple original c etait une BlockingCollection pour gerer la concurence des threads si on avait plusieurs taches a la fois)
+
+
+On repart dans le main alors
+Pour simuler le message loop et le thread UI on a une boucle qui tourne k fois
+
+Alors voila ce qu'on va faire 
+
+1/
+On Lance la methode Asynchrone et on ne la Wait pas Oulala surtout pas!! on va comprendre pourquoi apres j'aimerai bien dire c'est tres simple mais en fait j'avoue que perso ca ma pris du temps 
+pour comprendre et que demain j aurai encore oublié!!
+
+2/
+
+Dans le main thread on fait quelque chose on fait une boucle qui ecrit des points elle travaille....
+pendant ce travail On check si la liste de call back n a pas un nouvel item qui s y est ajouté (soulignons que nous on a rien ajouté du tout)!!
+Ce qui va se passer c est que System.Threading.Tasks lorque la tache ioTask va se finir framework va faire plusieur choses:
+- il va passer le status de var ioTask = completed
+- il va seter la propriété result de var iotask = "Successfully logged"
+- Puis il se dire tien maintenant il faut finir le travaill et executer le callback!!
+- Mais avant de executer le call back il va verifier et ca c est tordu si il n y a pas un synchronisation context qui existe et si oui, il ne va rien executer mais il va utiliser La methode Post 
+du synchronisation context et passer le delegate (la partie apres await) et le state c'est a dire les variables qui etait presentes lorsque la methode a ete appellée ici le k.
+
+
+3/ On simule la fin de la boucle message loop
+Et la on execute tout les callbacks 
+On vide les liste et on repart pour un tour ... Alors bien sur c est une version tres simplifiée d'une version simplifié de stephen Toub on voit que 
+je me suis arrangé pour que la tache io finisse au moment ou le Thraed principal est en train de travailler!!
+Mais c est vraiment pour aider a comprendre le principe en dessous maintenant place a la demo!!
+
+
+Oh j allais oublier le deadLock!!!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

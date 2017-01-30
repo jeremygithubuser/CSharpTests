@@ -51,6 +51,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Async\AsyncTest.cs" />
     <Compile Include="ControlFlow\ControlFlowTest.cs" />
     <Compile Include="CSharpTypeSystem\CSharpTypeSystemTest.cs" />
     <Compile Include="Dynamics\DynamicsTest.cs" />
@@ -70,6 +71,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Async\Notes.txt" />
     <Content Include="CSharpTypeSystem\CharLiterals.png" />
     <Content Include="CSharpTypeSystem\CLI-Type-Inheritance.png" />
     <Content Include="CSharpTypeSystem\CLI-Type-Inheritance2.png" />
