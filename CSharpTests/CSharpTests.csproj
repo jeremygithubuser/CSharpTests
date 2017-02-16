@@ -59,6 +59,7 @@
     <Compile Include="Equality\FloatConverter.cs" />
     <Compile Include="Equality\FloatTest.cs" />
     <Compile Include="Events\EventTest.cs" />
+    <Compile Include="Exceptions\ExceptionTest.cs" />
     <Compile Include="Methods\MethodsTest.cs" />
     <Compile Include="MSIL\MsilTest.cs" />
     <Compile Include="Oop\InheritanceTest.cs" />
