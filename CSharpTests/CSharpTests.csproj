@@ -36,7 +36,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -46,7 +52,9 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
@@ -55,11 +63,14 @@
     <Compile Include="ControlFlow\ControlFlowTest.cs" />
     <Compile Include="CSharpTypeSystem\CSharpTypeSystemTest.cs" />
     <Compile Include="Dynamics\DynamicsTest.cs" />
+    <Compile Include="Equality\ComparisonTest.cs" />
     <Compile Include="Equality\EqualityTest.cs" />
     <Compile Include="Equality\FloatConverter.cs" />
     <Compile Include="Equality\FloatTest.cs" />
+    <Compile Include="Equality\HashCodeTest.cs" />
     <Compile Include="Events\EventTest.cs" />
     <Compile Include="Exceptions\ExceptionTest.cs" />
+    <Compile Include="Maths\Integers.cs" />
     <Compile Include="Methods\MethodsTest.cs" />
     <Compile Include="MSIL\MsilTest.cs" />
     <Compile Include="Oop\InheritanceTest.cs" />
@@ -68,9 +79,12 @@
     <Compile Include="PropertiesAndFields\PropertiesAndFieldsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Streams\StreamTest.cs" />
+    <Compile Include="Tasks\TasksTest.cs" />
     <Compile Include="ValueType\ValueTypeTest.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Equality\Documentation\6-Comparison_For_Strings\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Async\Notes.txt" />
     <Content Include="CSharpTypeSystem\CharLiterals.png" />
@@ -82,10 +96,90 @@
     <Content Include="CSharpTypeSystem\SimpleTypesConversions.png" />
     <Content Include="CSharpTypeSystem\SimpleTypesLiterals.png" />
     <Content Include="CSharpTypeSystem\ValueTypes.png" />
+    <Content Include="Equality\Documentation\1-Equality_In_Dot_Net\1-SummaryI.png" />
+    <Content Include="Equality\Documentation\1-Equality_In_Dot_Net\10-What_Virtual_Equal_DoesII.png" />
+    <Content Include="Equality\Documentation\1-Equality_In_Dot_Net\2-The_Tree_Equals_Methods_Of_System.Object.png" />
+    <Content Include="Equality\Documentation\1-Equality_In_Dot_Net\3-What_IEquatable_Does.png" />
+    <Content Include="Equality\Documentation\1-Equality_In_Dot_Net\4-What_IEquatable_DoesII.png" />
+    <Content Include="Equality\Documentation\1-Equality_In_Dot_Net\5-What_ReferenceEquals_Does.png" />
+    <Content Include="Equality\Documentation\1-Equality_In_Dot_Net\6-What_Static_Equal_Does.png" />
+    <Content Include="Equality\Documentation\1-Equality_In_Dot_Net\7-What_Static_Equal_Does_II.png" />
+    <Content Include="Equality\Documentation\1-Equality_In_Dot_Net\8-What_Static_Equal_Does_III.png" />
+    <Content Include="Equality\Documentation\1-Equality_In_Dot_Net\9-What_Virtual_Equal_Does.png" />
+    <Content Include="Equality\Documentation\2-Equality_Operator\1-Overview.png" />
+    <Content Include="Equality\Documentation\2-Equality_Operator\10-Operator_Overload.png" />
+    <Content Include="Equality\Documentation\2-Equality_Operator\11-How_Operator_Works_For_Reference_Types.png" />
+    <Content Include="Equality\Documentation\2-Equality_Operator\12-Non_Primitive_Valu_Type_Need_Overload_Operator.png" />
+    <Content Include="Equality\Documentation\2-Equality_Operator\13-Tuple_Does_Not_Overload_Op.png" />
+    <Content Include="Equality\Documentation\2-Equality_Operator\14-Compare_Operator_Equal_Method.png" />
+    <Content Include="Equality\Documentation\2-Equality_Operator\15-Operator_Does_Not_Play_Well_With_Inheritance.png" />
+    <Content Include="Equality\Documentation\2-Equality_Operator\16-Operator_Does_Not_Play_Well_With_Generic.png" />
+    <Content Include="Equality\Documentation\2-Equality_Operator\17-Operator_Does_Not_Play_Well_With_Generic.II.png" />
+    <Content Include="Equality\Documentation\2-Equality_Operator\18-Summary.png" />
+    <Content Include="Equality\Documentation\2-Equality_Operator\2-Equal_Operator_Is_Different_Than_Equal_Method.png" />
+    <Content Include="Equality\Documentation\2-Equality_Operator\3-Int_Example.png" />
+    <Content Include="Equality\Documentation\2-Equality_Operator\4-Int_Example.png" />
+    <Content Include="Equality\Documentation\2-Equality_Operator\5-Int_Example.png" />
+    <Content Include="Equality\Documentation\2-Equality_Operator\6-Int_Example.png" />
+    <Content Include="Equality\Documentation\2-Equality_Operator\7-Reference_Type_Example.png" />
+    <Content Include="Equality\Documentation\2-Equality_Operator\8-Reference_Type_Example.png" />
+    <Content Include="Equality\Documentation\2-Equality_Operator\9-String-Example.png" />
+    <Content Include="Equality\Documentation\3-Equality_For_Value_Types\1-Summary.png" />
+    <Content Include="Equality\Documentation\3-Equality_For_Value_Types\10-What-We-Did.png" />
+    <Content Include="Equality\Documentation\3-Equality_For_Value_Types\11-Summary.png" />
+    <Content Include="Equality\Documentation\3-Equality_For_Value_Types\2-Definition.png" />
+    <Content Include="Equality\Documentation\3-Equality_For_Value_Types\3-Why-Override-Equality.png" />
+    <Content Include="Equality\Documentation\3-Equality_For_Value_Types\4-What-Do-We-Need-To-Do.png" />
+    <Content Include="Equality\Documentation\3-Equality_For_Value_Types\5-Implementation.png" />
+    <Content Include="Equality\Documentation\3-Equality_For_Value_Types\6-Implementation.png" />
+    <Content Include="Equality\Documentation\3-Equality_For_Value_Types\7-GetHashCode.png" />
+    <Content Include="Equality\Documentation\3-Equality_For_Value_Types\8-GetHashCode.png" />
+    <Content Include="Equality\Documentation\3-Equality_For_Value_Types\9-GetHashCode.png" />
+    <Content Include="Equality\Documentation\4-Equality_For_Reference_Tpes\1-Summary.png" />
+    <Content Include="Equality\Documentation\4-Equality_For_Reference_Tpes\10-Implementation-Inheritance_Issue.png" />
+    <Content Include="Equality\Documentation\4-Equality_For_Reference_Tpes\11-Implementation-Inheritance_Issue.png" />
+    <Content Include="Equality\Documentation\4-Equality_For_Reference_Tpes\12-Implementation-Inheritance_Issue.png" />
+    <Content Include="Equality\Documentation\4-Equality_For_Reference_Tpes\13-Implementation-Inheritance_Issue.png" />
+    <Content Include="Equality\Documentation\4-Equality_For_Reference_Tpes\14-Implementation-Inheritance_Issue.png" />
+    <Content Include="Equality\Documentation\4-Equality_For_Reference_Tpes\15-Implementation-Inheritance_Issue.png" />
+    <Content Include="Equality\Documentation\4-Equality_For_Reference_Tpes\16-Equality_Type_Safety_OOP.png" />
+    <Content Include="Equality\Documentation\4-Equality_For_Reference_Tpes\17-Equality_Type_Safety_OOP.png" />
+    <Content Include="Equality\Documentation\4-Equality_For_Reference_Tpes\18-Unecessary_IEquatable.png" />
+    <Content Include="Equality\Documentation\4-Equality_For_Reference_Tpes\19-Sealed_Is_Required.png" />
+    <Content Include="Equality\Documentation\4-Equality_For_Reference_Tpes\2-Equality_for_reference_types.png" />
+    <Content Include="Equality\Documentation\4-Equality_For_Reference_Tpes\20-Pros_Cons.png" />
+    <Content Include="Equality\Documentation\4-Equality_For_Reference_Tpes\21-Summary.png" />
+    <Content Include="Equality\Documentation\4-Equality_For_Reference_Tpes\3-Why_Override_Equality.png" />
+    <Content Include="Equality\Documentation\4-Equality_For_Reference_Tpes\4-Why_Override_Equality.png" />
+    <Content Include="Equality\Documentation\4-Equality_For_Reference_Tpes\5-Alternatively.png" />
+    <Content Include="Equality\Documentation\4-Equality_For_Reference_Tpes\6-Implementation.png" />
+    <Content Include="Equality\Documentation\4-Equality_For_Reference_Tpes\7-Implementation.png" />
+    <Content Include="Equality\Documentation\4-Equality_For_Reference_Tpes\8-Implementation.png" />
+    <Content Include="Equality\Documentation\4-Equality_For_Reference_Tpes\9-Implementation.png" />
+    <Content Include="Equality\Documentation\5-Comparison_In_Dot_Net\1-OverView.png" />
+    <Content Include="Equality\Documentation\5-Comparison_In_Dot_Net\10-Object_Does_Not_Supports_Comparisons.png" />
+    <Content Include="Equality\Documentation\5-Comparison_In_Dot_Net\11-Object_Does_Not_Supports_Comparisons.png" />
+    <Content Include="Equality\Documentation\5-Comparison_In_Dot_Net\12-Equality_Adn_Comparison_Operators.png" />
+    <Content Include="Equality\Documentation\5-Comparison_In_Dot_Net\13-Equality_Vs_Comparison.png" />
+    <Content Include="Equality\Documentation\5-Comparison_In_Dot_Net\14-Comparisons_Are_Values.png" />
+    <Content Include="Equality\Documentation\5-Comparison_In_Dot_Net\15-Dont_Implement_Comparison.png" />
+    <Content Include="Equality\Documentation\5-Comparison_In_Dot_Net\16-Dont_Implement_Comparison.png" />
+    <Content Include="Equality\Documentation\5-Comparison_In_Dot_Net\17-Choose_To_Write_A_Comparer.png" />
+    <Content Include="Equality\Documentation\5-Comparison_In_Dot_Net\2-What_Is_a_Comparison.png" />
+    <Content Include="Equality\Documentation\5-Comparison_In_Dot_Net\3-Comparison_And_Equality.png" />
+    <Content Include="Equality\Documentation\5-Comparison_In_Dot_Net\4-Natural_Vs_Plugged_In_Comparison.png" />
+    <Content Include="Equality\Documentation\5-Comparison_In_Dot_Net\5-Comparison.png" />
+    <Content Include="Equality\Documentation\5-Comparison_In_Dot_Net\6-IComparable.png" />
+    <Content Include="Equality\Documentation\5-Comparison_In_Dot_Net\7-CompareTo.png" />
+    <Content Include="Equality\Documentation\5-Comparison_In_Dot_Net\8-Operators.png" />
+    <Content Include="Equality\Documentation\5-Comparison_In_Dot_Net\9-Equality_Vs_Comparison.png" />
     <Content Include="Equality\Floating.txt" />
     <Content Include="Equality\Notes.txt" />
     <Content Include="Streams\input.bmp" />
     <Content Include="Streams\input.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

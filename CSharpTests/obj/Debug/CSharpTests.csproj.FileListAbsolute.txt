@@ -6,3 +6,10 @@ C:\Users\NodeJs\Documents\Visual Studio 2015\Projects\CSharpTests\CSharpTests\bi
 C:\Users\NodeJs\Documents\Visual Studio 2015\Projects\CSharpTests\CSharpTests\obj\Debug\CSharpTests.csprojResolveAssemblyReference.cache
 C:\Users\NodeJs\Documents\Visual Studio 2015\Projects\CSharpTests\CSharpTests\obj\Debug\CSharpTests.dll
 C:\Users\NodeJs\Documents\Visual Studio 2015\Projects\CSharpTests\CSharpTests\obj\Debug\CSharpTests.pdb
+C:\CSharpTests\CSharpTests\bin\Debug\CSharpTests.dll
+C:\CSharpTests\CSharpTests\bin\Debug\CSharpTests.pdb
+C:\CSharpTests\CSharpTests\obj\Debug\CSharpTests.csprojResolveAssemblyReference.cache
+C:\CSharpTests\CSharpTests\obj\Debug\CSharpTests.dll
+C:\CSharpTests\CSharpTests\obj\Debug\CSharpTests.pdb
+C:\CSharpTests\CSharpTests\bin\Debug\Newtonsoft.Json.dll
+C:\CSharpTests\CSharpTests\bin\Debug\Newtonsoft.Json.xml

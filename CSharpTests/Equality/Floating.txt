@@ -16,7 +16,7 @@ La valeur 127 = 2^0
 
 Si   127 < E <= 255  
 On a e = E-127  exemple si E = 130 on a e = 3
-F =    S.( 1(invisible) M ).2^e
+F =    S.( 1(invisible) M ).2^e				ou S = signe	.2^e = deplacement de la virgule
 
 Exemple convertir 124.324000000000000000000
 

@@ -1,4 +1,8 @@
-﻿				Natura c#			Plugin
+﻿We can say that primitive in c# are type that are provided by microsoft out of the box
+Virtual method can be resolved At runtime!!
+But not static methods!!
+
+				Natura c#			Plugin
 Equality		IEquatable<T>		IEqualityComparer<T>
 				==, !=				
 
